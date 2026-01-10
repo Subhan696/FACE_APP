@@ -147,26 +147,59 @@ export default function FaceScanner() {
 
             {/* Results Section */}
             {results && (
-                <div className="mt-8 w-full bg-slate-900/80 backdrop-blur-md p-6 rounded-2xl border border-slate-700 animate-in fade-in slide-in-from-bottom-4">
-                    <div className="flex justify-between items-end mb-4">
-                        <h2 className="text-2xl font-bold text-white">Analysis</h2>
-                        <div className="text-4xl font-black text-indigo-400">{results.score}<span className="text-lg text-slate-500 font-normal">/100</span></div>
+                <div className="mt-8 w-full animate-in fade-in slide-in-from-bottom-4">
+                    {/* Main Score Card */}
+                    <div className="bg-gradient-to-br from-indigo-900/40 to-slate-900/40 backdrop-blur-md p-6 rounded-2xl border border-indigo-500/30 mb-4 shadow-xl shadow-indigo-500/10">
+                        <div className="flex justify-between items-start">
+                            <div className="flex flex-col">
+                                <span className="text-slate-400 text-sm font-medium tracking-wider uppercase">Overall Aesthetic</span>
+                                <h2 className="text-3xl font-black text-white px-2">
+                                    {results.score >= 90 ? "GOD TIER" : (results.score >= 80 ? "MODEL TIER" : (results.score >= 70 ? "ABOVE AVERAGE" : "AVERAGE"))}
+                                </h2>
+                            </div>
+                            <div className="text-right">
+                                <span className="text-xl font-bold text-white">{results.score}</span>
+                                <span className="text-sm text-slate-500 block">/100</span>
+                            </div>
+                        </div>
+
+                        {/* Potential Bar */}
+                        {results.potential && (
+                            <div className="mt-4 pt-4 border-t border-white/10">
+                                <div className="flex justify-between text-xs mb-1">
+                                    <span className="text-slate-400">Current</span>
+                                    <span className="text-indigo-300">Max Potential: {results.potential}</span>
+                                </div>
+                                <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                                    <div className="h-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)] transition-all duration-1000" style={{ width: `${results.score}%` }}></div>
+                                    <div className="h-full bg-indigo-500/30 -mt-2 transition-all duration-1000" style={{ width: `${results.potential}%` }}></div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="space-y-3 mb-6">
+                    {/* Report Card Grid */}
+                    <div className="grid grid-cols-2 gap-3 mb-6">
                         {Object.entries(results.traits).map(([key, value]) => (
-                            <div key={key} className="flex justify-between text-sm">
-                                <span className="text-slate-400 capitalize">{key}</span>
-                                <span className="text-white font-medium">{value}</span>
+                            <div key={key} className="bg-slate-900/60 p-3 rounded-lg border border-slate-700/50">
+                                <span className="text-slate-500 text-xs uppercase font-bold tracking-wider block mb-1">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                                <span className="text-white font-semibold text-lg">{value}</span>
                             </div>
                         ))}
                     </div>
 
-                    <div className="bg-slate-800/50 p-4 rounded-lg">
-                        <h3 className="text-sm font-semibold text-indigo-300 mb-2 uppercase tracking-wider">Recommendations</h3>
-                        <ul className="list-disc list-inside text-sm text-slate-300 space-y-1">
+                    {/* Advice */}
+                    <div className="bg-slate-800/30 p-5 rounded-xl border border-slate-700/50">
+                        <h3 className="text-sm font-bold text-indigo-300 mb-3 uppercase tracking-wider flex items-center gap-2">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Looksmaxxing Advice
+                        </h3>
+                        <ul className="space-y-2">
                             {results.advice.map((tip, i) => (
-                                <li key={i}>{tip}</li>
+                                <li key={i} className="text-sm text-slate-300 flex gap-2">
+                                    <span className="text-indigo-500">•</span>
+                                    {tip}
+                                </li>
                             ))}
                         </ul>
                     </div>

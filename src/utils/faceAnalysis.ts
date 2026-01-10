@@ -40,11 +40,8 @@ export const detectFace = async (imageElement: HTMLImageElement | HTMLVideoEleme
 // Heuristic Analysis
 export interface AnalysisResult {
     score: number;
-    traits: {
-        jawline: string;
-        eyes: string;
-        cheekbones: string;
-    };
+    potential?: number; // Added potential score
+    traits: Record<string, string>; // More flexible traits
     advice: string[];
 }
 
